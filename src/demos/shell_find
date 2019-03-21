@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# Find files modified more than 1 month ago (31 days)
+find -mtime 31 -type f
+
+# Find files accessed more than 1 month ago (31 days)
+find -atime 31 -type f

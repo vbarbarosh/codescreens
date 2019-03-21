@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# Download all videos from channel
+youtube-dl https://www.youtube.com/channel/UCVqD-Rd1nMmvbvf-AvQvgZw
+
+# Download a list of videos using urls
+youtube-dl \
+    https://www.youtube.com/watch?v=u2oKnsiXBr8 \
+    https://www.youtube.com/watch?v=hNRTc5mEn7I \
+    https://www.youtube.com/watch?v=rdETpKXowsI
+
+# Download a list of videos using video ids
+youtube-dl u2oKnsiXBr8 hNRTc5mEn7I rdETpKXowsI
+
+# List all videos from playlist
+youtube-dl -j --flat-playlist PLqf_9W8aN7TP4gLuFivNRMSznrY364L2k \
+    | jq -r .id | awk '{print "https://youtu.be/" $0}'
