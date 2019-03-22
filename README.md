@@ -1,1 +1,1 @@
-Codescreens - elegant solutions of day-to-day problems
+Codescreens - Elegant solutions of day-to-day coding problems
