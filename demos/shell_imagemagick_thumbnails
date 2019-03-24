@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# http://www.imagemagick.org/Usage/resize/#shrink
+
+# Create a `-thumb.jpg` for each of .jpg, .png, and .gif in current dir
+for orig in `ls | grep -E '\.(jpg|png|gif)$'`; do
+    thumb=${orig%.*}-thumb.jpg
+    if test -e $thumb || test ${orig:(-10)} == -thumb.jpg; then
+        continue
+    fi
+    echo $orig '-->' $thumb
+    convert $orig -resize '>400x400' $thumb
+done
