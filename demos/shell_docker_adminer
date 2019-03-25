@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# From inside of a Docker container, how do I connect to the localhost
+# of the machine?
+# https://stackoverflow.com/q/24319662/1478566
+
+# Run Adminer with access to 127.0.0.1 of the machine (be careful)
+docker run --rm --network=host -e ADMINER_DEFAULT_SERVER=127.0.0.1 adminer &
+
+# https://stackoverflow.com/a/27601038/1478566
+while ! nc -z 127.0.0.1 8080; do
+    echo Waiting for 127.0.0.1:8080...
+    sleep 1s
+done
+
+xdg-open http://127.0.0.1:8080
+wait
