@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# https://serverfault.com/a/72749/323502
+ls | awk '{print "PREFIX-" $0 "-SUFFIX"}'
