@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# https://www.gnu.org/software/bash/manual/bash.html#Shell-Parameter-Expansion
+
+# Check if $FOO is unset
+test -z ${FOO+x} && echo FOO is unset
+
+# Check if $FOO is unset or empty
+test -z ${FOO:+x} && echo FOO is unset or empty
+
+# print __SET__ if $FOO is defined
+echo ${FOO+__SET__}
+
+# print __UNSET__ if $FOO is not defined
+echo ${FOO-__UNSET__}
+
+# print __SET_AND_NOT_EMPTY__ if $FOO is defined and not empty
+echo ${FOO:+__SET_AND_NOT_EMPTY__}
+
+# print __UNSET_OR_EMPTY__ if $FOO is not defined or empty
+echo ${FOO:-__UNSET_OR_EMPTY__}
