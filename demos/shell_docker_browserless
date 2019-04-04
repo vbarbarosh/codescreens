@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+url='https://www.youtube.com/watch?v=u2oKnsiXBr8'
+
+# Using `-o-` instead of `-o /dev/stdout` might lead to
+# curl: (23) Failed writing body (4096 != 16384)
+# https://github.com/travis-ci/travis-ci/issues/4704#issuecomment-348435959
+
+docker run > a.pdf --rm -i browserless/chrome bash << EOF
+    node build/index.js &
+    sleep 1
+    curl 127.0.0.1:3000/pdf -H Content-Type:application/json \
+        -o /dev/stdout -d '{"url":"$url"}'
+EOF
+
+docker run > a.png --rm -i browserless/chrome bash << EOF
+    node build/index.js &
+    sleep 1
+    curl 127.0.0.1:3000/screenshot -H Content-Type:application/json \
+        -o /dev/stdout -d '{"url":"$url"}'
+EOF
+
+docker run > a.webm --rm -i browserless/chrome bash << EOF
+    node build/index.js &
+    sleep 1
+    curl 127.0.0.1:3000/screencast -H Content-Type:application/json \
+        -o /dev/stdout -d '{
+            "code": "module.exports = function ({page, context: {u, d}}) { \
+                return page.goto(u).then(() => page.waitFor(d)); \
+            }",
+            "context": {"u":"$url","d":5000}
+        }'
+EOF
