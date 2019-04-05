@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# usage: cat input.html | ./shell_docker_browserless_htmlpdf > a.pdf
+
+html=`base64 -w0`
+
+docker run --rm -i browserless/chrome bash << EOF
+    node build/index.js &
+    sleep 1
+    node > a << 'EOF2'
+        const code = \`
+            module.exports = async function (v) {
+                await v.page.setContent(v.context.html);
+                return {data: await v.page.pdf()};
+            };
+        \`;
+        const context = {html: new Buffer('$html', 'base64').toString()};
+        console.log(JSON.stringify({code, context}));
+EOF2
+    curl 127.0.0.1:3000/function -H Content-Type:application/json \
+        -o /dev/stdout -sf -d@a
+EOF
