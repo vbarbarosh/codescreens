@@ -5,12 +5,12 @@
 function foobar($opt = [])
 {
     $opt += [
-		'name' => 'default_name',
-		'title' => 'Default Title',
+        'name' => 'default_name',
+        'title' => 'Default Title',
     ];
 
-	echo 'name: ', $opt['name'], PHP_EOL;
-	echo 'title: ', $opt['title'], PHP_EOL;
+    echo 'name: ', $opt['name'], PHP_EOL;
+    echo 'title: ', $opt['title'], PHP_EOL;
 }
 
 # name: default_name
