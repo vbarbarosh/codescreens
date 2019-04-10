@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# https://www.percona.com/blog/2017/10/01/one-million-tables-mysql-8-0/
+
+function long_run
+{
+    echo job $1 begin
+    sleep 5
+    echo job $1 end
+}
+
+# Create 100 parallel jobs and wait until they are done
+for i in {1..100}; do
+    long_run $i &
+done
+
+wait
+
+echo all done
