@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# Parse ~/.ssh/config file with awk
+
+# usage: shell_awk_parse_ssh_config
+# usage: shell_awk_parse_ssh_config | column -t
+
+cat $HOME/.ssh/config | awk -v RS= -v FS=\\n -v IGNORECASE=1 '
+    {
+        ip = ""
+        alias = ""
+        id_file = ""
+        username = ""
+
+        for (j = 1; j <= NF; ++j) {
+            split($j, tmp, " ")
+            if (tmp[1] == "Host") { alias = tmp[2] }
+            if (tmp[1] == "Hostname") { ip = tmp[2] }
+            if (tmp[1] == "IdentityFile") { id_file = substr(tmp[2], 8) }
+            if (tmp[1] == "User") { username = tmp[2] }
+        }
+
+        if (ip || alias && alias != "*") {
+            print ip "\t" alias "\t" username "\t" id_file
+        }
+    }
+'
