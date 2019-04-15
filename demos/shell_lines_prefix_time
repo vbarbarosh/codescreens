@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# Add a timestamp to beginning of each line
+
+# Fast but without milliseconds
+find | awk '{print strftime("[%FT%TZ] ", systime(), 1) $0}'
+
+# Slow since a new process should be spawned for each line
+find | while read line; do
+    echo "[`date -u +%FT%T.%NZ`] $line"
+done
