@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# Make a screencast of a page usign Browserless
+
+curl -sf https://chrome.browserless.io/screencast \
+        -H Content-Type:application/javascript \
+        -o a1.webm --data-binary @- << 'EOF'
+    module.exports = async function ({page}) {
+        await page.goto('https://www.youtube.com/watch?v=u2oKnsiXBr8');
+        await page.waitFor(5000);
+    };
+EOF
+
+docker run --rm -i browserless/chrome bash << 'EOF' > a2.webm
+    node build/index.js &
+    while ! curl -sf 127.0.0.1:3000/workspace -o /dev/null; do sleep 0.2s; done
+    curl -sf 127.0.0.1:3000/screencast -H Content-Type:application/javascript \
+            -o /dev/stdout --data-binary @- << 'EOF2'
+        module.exports = async function ({page}) {
+            await page.goto('https://www.youtube.com/watch?v=u2oKnsiXBr8');
+            await page.waitFor(5000);
+        };
+EOF2
+EOF
