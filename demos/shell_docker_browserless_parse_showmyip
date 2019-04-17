@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# Parse a website using css selectors on the example of showmyip.gr
+
+docker run --rm -i browserless/chrome bash << 'EOF'
+    node build/index.js &
+    while ! curl -sf 127.0.0.1:3000/workspace -o /dev/null; do sleep 0.2s; done
+    curl -sf 127.0.0.1:3000/function -H Content-Type:application/javascript \
+            -o /dev/stdout --data-binary @- << 'EOF2'
+        module.exports = async function ({page}) {
+            const url = 'https://www.showmyip.gr/locate-ip-address';
+            await page.goto(url, {waitUntil: 'domcontentloaded'});
+            const rows = [
+                `ip: ${await sel('tr:nth-child(1) > td:nth-child(2)')}`,
+                `hostname: ${await sel('tr:nth-child(2) > td:nth-child(2)')}`,
+                `country: ${await sel('tr:nth-child(3) > td:nth-child(2)')}`,
+                `city: ${await sel('tr:nth-child(4) > td:nth-child(2)')}`,
+                `isp: ${await sel('tr:nth-child(5) > td:nth-child(2)')}`,
+                ''
+            ];
+            return {data: rows.join('\n')};
+            function sel(selector) {
+                return page.evaluate(function (s) {
+                    const elem = document.querySelector(s);
+                    return elem ? elem.innerText : 'n/a';
+                }, selector);
+            }
+        };
+EOF2
+EOF
