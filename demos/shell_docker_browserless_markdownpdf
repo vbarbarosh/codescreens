@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# Convert markdown into pdf using Browserless
+# usage: cat input.md | ./shell_docker_browserless_markdownpdf > a.pdf
+
+html=`base64 -w0 << EOF
+<script src="https://unpkg.com/showdown@1.9.0/dist/showdown.min.js"></script>
+<script>
+document.write(new showdown.Converter().makeHtml(atob('$(base64 -w0)')));
+</script>
+EOF
+`
+
+sed s/__HTML__/$html/ << 'EOF' | docker run --rm -i browserless/chrome bash
+    node build/index.js &
+    while ! curl -sf 127.0.0.1:3000/workspace -o /dev/null; do sleep 0.2s; done
+    curl -sf 127.0.0.1:3000/function -H Content-Type:application/javascript \
+            -o /dev/stdout --data-binary @- << 'EOF2'
+        module.exports = async function ({page}) {
+            await page.setContent(new Buffer('__HTML__', 'base64').toString());
+            return {data: await page.pdf()};
+        };
+EOF2
+EOF
