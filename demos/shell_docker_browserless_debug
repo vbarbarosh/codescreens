@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# Debugging Browserless
+
+# -e DEBUG=browserless*     print only browserless messages
+# -e DEBUG=puppeteer*       print only puppeteer messages
+# -e DEBUG=*                print all messages
+
+docker run --rm -i -e DEBUG=browserless* browserless/chrome bash << 'EOF'
+    node build/index.js &
+    while ! curl -sf 127.0.0.1:3000/workspace -o /dev/null; do sleep 0.2s; done
+    curl -sf 127.0.0.1:3000/function -H Content-Type:application/javascript \
+            -o /dev/stdout --data-binary @- << 'EOF2'
+        module.exports = async function ({page}) {
+            await page.goto('https://youtube.com');
+            return {data: 'DONE\n'};
+        };
+EOF2
+EOF
