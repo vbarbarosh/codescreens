@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# Print number with thousands separator
+
+# https://git.io/fhJ9G
+# https://stackoverflow.com/a/6539865/1478566
+# https://www.linuxquestions.org/questions/programming-9/
+#     format-numbers-using-bash-672031/page2.html#post5339386
+
+echo 1 | rev | fold -w3 | paste -sd, | rev
+echo 12 | rev | fold -w3 | paste -sd, | rev
+echo 123 | rev | fold -w3 | paste -sd, | rev
+echo 1234 | rev | fold -w3 | paste -sd, | rev
+echo 12345 | rev | fold -w3 | paste -sd, | rev
+echo 123456 | rev | fold -w3 | paste -sd, | rev
+echo 1234567 | rev | fold -w3 | paste -sd, | rev
+echo 12345678 | rev | fold -w3 | paste -sd, | rev
+echo 123456789 | rev | fold -w3 | paste -sd, | rev
+echo 1234567890 | rev | fold -w3 | paste -sd, | rev
