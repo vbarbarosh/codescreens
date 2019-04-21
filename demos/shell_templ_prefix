@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+script=`realpath $0`
+scriptdir=`dirname $script`
+scriptname=`basename $script`
+
+# Add a timestamp to the output of whole script
+
+# USE CASE
+# Bitbucket pipelines can run for a long time. Its might be useful to
+# know which part takes more time.
+
+if test "${1-x}" != "PREFIX"; then
+    "$script" PREFIX "$@" 2>&1 \
+        | awk '{print strftime("[%FT%TZ] ", systime(), 1) $0}'
+    exit
+fi
+shift
+
+echo script=$script
+echo scriptdir=$scriptdir
+echo scriptname=$scriptname
+
+ls
