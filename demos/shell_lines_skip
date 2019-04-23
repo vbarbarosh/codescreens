@@ -11,3 +11,7 @@ seq 10 | tail -n +6
 
 # Skip 5 first lines
 seq 10 | awk 'NR > 5'
+
+# Skip 5 first lines
+# https://stackoverflow.com/a/51676688/1478566
+seq 10 | sed -n '1,5d;p'
