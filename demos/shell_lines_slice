@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# Keep selected range of lines
+
+# Print lines 5 through 8 inclusively
+# https://stackoverflow.com/a/40936651/1478566
+seq 10 | sed -n '5,8p'
+
+# Print lines 5 through 8 inclusively
+# https://stackoverflow.com/a/83383/1478566
+seq 10 | awk 'NR >= 5 && NR <= 8'
