@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# Keep unique lines only
+
+lines=`for i in {1..10}; do seq 10; done | shuf`
+
+# Keep first unique lines
+# https://superuser.com/a/1107659/78171
+echo "$lines" | awk '!seen[$0]++'
+
+# Sort then remove all duplicate lines
+echo
+echo "$lines" | sort -u
+
+# Sort then print unique lines with counter
+echo
+echo "$lines" | sort | uniq -c
