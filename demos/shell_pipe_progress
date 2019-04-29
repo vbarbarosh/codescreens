@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# Measure pipe throughput
+# https://unix.stackexchange.com/a/1539/121657
+
+# Show transfer speed. One useful application for this is making mysql
+# dump through ssh.
+cat /dev/urandom | head -c 1G | pv > /dev/null
+
+# Show transfer speed with a progress bar (only when size is already known)
+cat /dev/urandom | head -c 1G | pv -s 1G > /dev/null
