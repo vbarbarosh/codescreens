@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# Template for using ffmpeg in shell scripts
+
+ffmpeg -nostdin -v error -i a.webm -y a.mp4
+
+# https://ffmpeg.org/ffmpeg.html
+
+# https://stackoverflow.com/a/47114881/1478566
+# > **ffmpeg** enables interaction with stdin by default. On Mac OS X
+# > and Linux systems, this causes an **ffmpeg** job running in the
+# > background to suspend. Adding option **-nostdin** to the
+# > invocation causes **ffmpeg** to not enable stdin interaction, and
+# > so avoids suspending the background process.
+
+# In order to understand why **-nostdin** is necessary, download a few
+# minute video from youtube and convert it in background using ffmpeg.
+# Conversion will hang after a few seconds until job will be moved
+# into foreground.
+ffmpeg -nostdin -i a.webm a.mp4 & wait
