@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# Basic auth with curl
+# https://ec.haxx.se/http-auth.html
+# https://curl.haxx.se/docs/manpage.html
+
+curl -u username:password https://echo.vbarbarosh.com
+# HTTP/1.1 GET /
+# 
+# Host: echo.vbarbarosh.com
+# Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
+# User-Agent: curl/7.58.0
+# [...]
+
+# This way password might not contain @ characters
+curl https://username:password@echo.vbarbarosh.com
+# HTTP/1.1 GET /
+# 
+# Host: echo.vbarbarosh.com
+# Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
+# User-Agent: curl/7.58.0
+# [...]
