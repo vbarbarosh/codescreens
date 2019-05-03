@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# Sending GET requests with curl
+# https://ec.haxx.se
+# https://curl.haxx.se/docs/manpage.html
+
+curl https://echo.vbarbarosh.com
+# HTTP/1.1 GET /
+# 
+# Host: echo.vbarbarosh.com
+# User-Agent: curl/7.58.0
+# [...]
+
+# Specify -G option if you want to use --data-* options
+curl -G https://echo.vbarbarosh.com \
+    --data-urlencode name=mango \
+    --data-urlencode thumbnail_url='https://example.com/img.png?w=100&h=100'
+# HTTP/1.1 GET /?name=mango&thumbnail_url=https%3A%2F%2Fexample.com
+# %2Fimg.png%3Fw%3D100%26h%3D100
+# 
+# Host: echo.vbarbarosh.com
+# User-Agent: curl/7.58.0
+# [...]
