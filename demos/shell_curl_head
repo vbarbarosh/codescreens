@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# Sending HEAD requests with curl
+# https://curl.haxx.se/docs/manpage.html
+
+curl -I https://httpbin.org/status/400
+# HTTP/1.1 400 BAD REQUEST
+# Access-Control-Allow-Credentials: true
+# Access-Control-Allow-Origin: *
+# Content-Length: 0
+# Content-Type: text/html; charset=utf-8
+# Date: Mon, 01 Apr 2019 18:46:25 GMT
+# Server: nginx
+# Connection: keep-alive
