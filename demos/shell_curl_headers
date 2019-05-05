@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# Sending and receiving headers with curl
+# https://curl.haxx.se/docs/manpage.html
+
+# Show HTTP request and response headers
+curl -v https://echo.vbarbarosh.com
+
+# Include the HTTP response headers in the output
+curl -i https://echo.vbarbarosh.com
+
+# Add headers to a request
+curl https://echo.vbarbarosh.com -H foo:bar -H 'baz:abc def xxx'
+
+# Save response headers to a file
+curl https://echo.vbarbarosh.com -D headers.txt
