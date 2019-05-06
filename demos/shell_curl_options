@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# Common options for curl
+# https://curl.haxx.se/docs/manpage.html
+
+# -s silent, -f fail --- should be used in shell scripts
+curl -sf https://echo.vbarbarosh.com -o /dev/null
+
+# -L follow redirects
+curl -L https://echo.vbarbarosh.com -o /dev/null
+
+# Show simple progress bar
+curl -# https://echo.vbarbarosh.com -o /dev/null
+
+# Show HTTP request and reponse headers
+curl -v https://echo.vbarbarosh.com
+
+# Include the HTTP response headers in the output
+curl -i https://echo.vbarbarosh.com
+
+# Specifying custom headers
+curl https://echo.vbarbarosh.com -H aa:11 -H bb:22 -H cc:33
