@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+script=`realpath $0`
+scriptdir=`dirname $script`
+scriptname=`basename $script`
+
+# POST as application/x-www-form-urlencoded with curl
+# https://curl.haxx.se/docs/manpage.html
+
+cd $scriptdir
+
+# Preferred way (all values will be properly url encoded)
+curl https://echo.vbarbarosh.com \
+    --data-urlencode ='~!@#$%^&*()_+{}:"<>? will be properly encoded' \
+    --data-urlencode keyname='+& will be properly encoded =+&' \
+    --data-urlencode @../input/nature/boat-1620452_1920-thumb.jpg \
+    --data-urlencode image@../input/nature/boat-1620452_1920-thumb.jpg
+
+# HTTP/1.1 POST /
+#
+# Host: echo.vbarbarosh.com
+# X-Forwarded-Proto: https
+# Content-Type: application/x-www-form-urlencoded
+# Content-Length: 279291
+#
+# ~%21%40%23%24%25%5E%26%2A%28%29_%2B%7B%7D%3A%22%3C%3E%3F%20will%20be%20
+# properly%20encoded&
+# keyname=%2B%26%20will%20be%20properly%20encoded%20%3D%2B%26&
+# %FF%D8%FF%E0%00%10JFIF%00%01%01%01[...]&
+# image=%FF%D8%FF%E0%00%10JFIF%00%01%01%01[...]
