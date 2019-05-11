@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# POST as multipart/form-data with curl
+# https://curl.haxx.se/docs/manpage.html
+
+curl https://echo.vbarbarosh.com \
+    -F short=hello \
+    -F long='<shell_curl_post_multipart' \
+    -F attach=@shell_curl_post_multipart
