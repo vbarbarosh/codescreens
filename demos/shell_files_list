@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# Common options to use with ls command
+
+# How to sort
+#
+# -r, --reverse
+#     reverse order while sorting
+# -S
+#     sort by file size, largest first
+# -t
+#     sort by modification time, newest first
+#
+# How to display
+#
+# -C
+#     list entries by columns
+# -l
+#     use a long listing format
+
+# List file one per line, newest last
+ls -ltr
+
+ls -t | head -n3    # Select 3 most recent files
+ls -t | tail -n3    # Select 3 most ancient files
