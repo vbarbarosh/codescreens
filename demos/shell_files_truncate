@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# Truncate files
+
+# Shrink existing file to 4096 bytes
+truncate -s 4K foo
+
+# https://stackoverflow.com/a/18072642/1478566
+# Extend file up to 4096 bytes in total (if file is less than this 4K)
+fallocate -l 4K foo
