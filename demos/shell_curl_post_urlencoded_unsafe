@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# POST as application/x-www-form-urlencoded with curl
+# https://curl.haxx.se/docs/manpage.html
+
+# No encoding will be made at all. If contents are taken from a file
+# then all lines will be joined into one long line with crlf replaced
+# with space. Several -d parameters will be merged with & symbol to
+# form entire POST body.
+curl -sf https://echo.vbarbarosh.com \
+    -d 'just a binary string ~!@#$%^&*(_+)' \
+    -d @filename_strip_crlf.txt
+
+# No encoding will be made at all. Several --data-binary will be
+# merged with & symbol to form entire POST body.
+curl -sf https://echo.vbarbarosh.com \
+    --data-binary 'just a binary string ~!@#$%^&*(_+)' \
+    --data-binary @filename_binary.txt
+
+# No encoding will be made at all, @ at the beginning
+# has no special meaning. Several --data-raw will be merged with &
+# symbol to form entire POST body.
+curl -sf https://echo.vbarbarosh.com \
+    --data-raw 'just a binary string ~!@#$%^&*(_+)' \
+    --data-raw '@another xxxxxxxxbinary string ~!@#$%^&*(_+)'
