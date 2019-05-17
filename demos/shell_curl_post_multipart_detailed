@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# POST as multipart/form-data with curl
+# https://curl.haxx.se/docs/manpage.html
+
+# Send name=value (`<`, `@`, and `;` in value has special meaning)
+curl https://echo.vbarbarosh.com -F 'name=value'
+
+# Read content from file `body.txt`
+curl https://echo.vbarbarosh.com -F 'name=<body.txt'
+
+# Read content from file `body.txt`, add filename="body.txt" parameter
+curl https://echo.vbarbarosh.com -F 'name=@body.txt'
+
+# Add `filename=hello.txt` parameter
+curl https://echo.vbarbarosh.com -F 'name=value;filename=hello.txt'
+
+# Add `Content-Type: text/foo` header
+curl https://echo.vbarbarosh.com -F 'name=value;type=text/foo'
+
+# Add `foo1: bar1` header
+curl https://echo.vbarbarosh.com -F 'name=value;headers=foo1:bar1'
+
+# Add `foo1: bar1`, `foo2: bar2` headers
+curl https://echo.vbarbarosh.com \
+    -F 'name=value;headers=foo1:bar1;headers=foo2:bar2'
+
+# Read headers from `headers.txt`
+curl https://echo.vbarbarosh.com -F 'name=value;headers=@headers.txt'
