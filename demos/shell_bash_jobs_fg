@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# Using fg command
+# https://www.gnu.org/software/bash/manual/html_node/Job-Control-Basics.html
+
+# Enable job control. Otherwise, `fg` will yield "fg: no job control"
+set -m
+
+docker run --rm adminer &
+# Some other commands...
+
+# Pressing Ctrl-C is enough to termiate docker process
+# https://docs.docker.com/config/containers/multi-service_container/
+fg %1
