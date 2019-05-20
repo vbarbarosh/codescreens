@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# Sending POST|PUT|PATCH|DELETE requests with curl
+
+# https://ec.haxx.se/http-post.html
+# https://curl.haxx.se/docs/manpage.html
+
+curl -X POST https://echo.vbarbarosh.com
+# HTTP/1.1 POST /
+# 
+# Host: echo.vbarbarosh.com
+# User-Agent: curl/7.58.0
+# [...]
+
+curl -X PUT https://echo.vbarbarosh.com
+# HTTP/1.1 PUT /
+# 
+# Host: echo.vbarbarosh.com
+# User-Agent: curl/7.58.0
+# [...]
+
+curl -X PATCH https://echo.vbarbarosh.com
+# HTTP/1.1 PATCH /
+# 
+# Host: echo.vbarbarosh.com
+# User-Agent: curl/7.58.0
+# [...]
+
+curl -X DELETE https://echo.vbarbarosh.com
+# HTTP/1.1 DELETE /
+# 
+# Host: echo.vbarbarosh.com
+# User-Agent: curl/7.58.0
+# [...]
