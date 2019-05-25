@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# Merge several .woff2 files into a single one. Primary use case is to
+# feed resulted file to a svgtext app.
+#
+# https://github.com/fonttools/fonttools
+
+pyftmerge "$@"
+mv merged.ttf a.ttf
+
+# After a little bit of research it turns out that google can return
+# single .ttf file if User-Agent header will not contain
+# **AppleWebKit/537 Chrome/74**. That is when opening url from browser
+# google will return css with a bunch of .woff2 files, but requesting
+# the same url with curl google will return a css with single .ttf
+# file.
+#
+# curl https://fonts.googleapis.com/css?family=Molengo \
+#   -H User-Agent:'AppleWebKit/537 Chrome/74'
+#
+# curl https://fonts.googleapis.com/css?family=Roboto \
+#   -H User-Agent:'AppleWebKit/537 Chrome/74'
