@@ -1,0 +1,36 @@
+<!-- Rotate a point around origin -->
+<!-- https://codepen.io/vbarbarosh/pen/joXEyR -->
+
+<svg>
+    <circle id="origin" cx="200" cy="150" r="10" />
+    <circle id="point" cx="175" cy="125" r="5" />
+</svg>  
+
+<style>
+svg {
+    width: 400px;
+    height: 300px;
+    border: 1px dashed;
+}
+</style>
+
+<script>
+(function () {
+    // http://stackoverflow.com/a/13208761/1478566
+    function rotate(x, y, ox, oy, deg)
+    {
+        const rad = deg * Math.PI / 180.0;
+        return {
+            x: Math.cos(rad) * (x-ox) - Math.sin(rad) * (y-oy) + ox,
+            y: Math.sin(rad) * (x-ox) + Math.cos(rad) * (y-oy) + oy
+        };
+    }
+
+    let deg = 0;
+    setInterval(function () {
+        const {x, y} = rotate(175, 125, 200, 150, deg++);
+        point.setAttribute('cx', x);
+        point.setAttribute('cy', y);  
+    }, 10);
+})();
+</script>
