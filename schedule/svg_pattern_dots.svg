@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+<!-- Drawing dots on each 5th pixel -->
+<!-- https://codepen.io/vbarbarosh/pen/QRzRBN -->
+<defs>
+    <!-- http://stackoverflow.com/a/14209704 -->
+    <pattern id="grid" x="5" y="5" width="10" height="10"
+            patternUnits="userSpaceOnUse">
+        <circle cx="5" cy="5" r="1" fill="gray" />
+    </pattern>
+</defs>
+<rect width="100%" height="100%" fill="url(#grid)" />
+</svg>
