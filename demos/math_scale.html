@@ -1,0 +1,41 @@
+<!-- Scale a point around origin -->
+<!-- https://codepen.io/vbarbarosh/pen/OYrdxK -->
+
+<svg>
+    <circle id="orig" cx="200" cy="150" r="10" />
+    <circle id="a" cx="25" cy="25" r="5" fill="#8f8" />
+    <circle id="b" cx="150" cy="25" r="5" />
+</svg>  
+
+<style>
+svg {
+    width: 400px;
+    height: 300px;
+    border: 1px dashed;
+}
+</style>
+
+<script>
+(function () {
+    function scale(x, ox, s)
+    {
+      return s*(x - ox) + ox;
+    }
+
+    const ox = +orig.getAttribute('cx');
+    const oy = +orig.getAttribute('cy');
+    const ax = +a.getAttribute('cx');
+    const ay = +a.getAttribute('cy');
+    const bx = +b.getAttribute('cx');
+    const by = +b.getAttribute('cy');
+    let i = 0;
+    setInterval(function () {
+        const s = (i%100)*0.01;
+        a.setAttribute('cx', scale(ax, ox, s));
+        a.setAttribute('cy', scale(ay, oy, s));
+        b.setAttribute('cx', scale(bx, ox, s));
+        b.setAttribute('cy', scale(by, oy, s));
+        ++i;
+    }, 10);
+})();
+</script>
