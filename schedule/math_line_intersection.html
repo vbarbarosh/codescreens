@@ -1,0 +1,39 @@
+<!-- Calculating the point of intersection of two lines -->
+<svg id="app" xmlns="http://www.w3.org/2000/svg">
+    <line :x1="x1" :y1="y1" :x2="x2" :y2="y2" stroke="black" />
+    <line :x1="x3" :y1="y3" :x2="x4" :y2="y4" stroke="black" />
+    <circle :cx="c.x" :cy="c.y" r="3" fill="red" />
+</svg>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+<script>
+// https://stackoverflow.com/a/38977789/1478566
+function line_intersect(x1, y1, x2, y2, x3, y3, x4, y4)
+{
+    const denom = (y4 - y3)*(x2 - x1) - (x4 - x3)*(y2 - y1);
+    if (denom == 0) {
+        return null;
+    }
+    const ua = ((x4 - x3)*(y1 - y3) - (y4 - y3)*(x1 - x3))/denom;
+    const ub = ((x2 - x1)*(y1 - y3) - (y2 - y1)*(x1 - x3))/denom;
+    return {
+        x: x1 + ua*(x2 - x1),
+        y: y1 + ua*(y2 - y1),
+        seg1: ua >= 0 && ua <= 1,
+        seg2: ub >= 0 && ub <= 1
+    };
+}
+
+new Vue({
+    el: '#app',
+    data: {
+        x1: 100, y1: 0, x2: 100, y2: 218, x3: 0, y3: 100, x4: 200, y4: 100
+    },
+    computed: {
+        c: function () {
+            const {x1, y1, x2, y2, x3, y3, x4, y4} = this;
+            return line_intersect(x1, y1, x2, y2, x3, y3, x4, y4);
+        }
+    }
+});
+</script>
