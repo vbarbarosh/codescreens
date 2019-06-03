@@ -8,7 +8,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
 <script>
 // https://stackoverflow.com/a/38977789/1478566
-function line_intersect(x1, y1, x2, y2, x3, y3, x4, y4)
+function line_intersection(x1, y1, x2, y2, x3, y3, x4, y4)
 {
     const denom = (y4 - y3)*(x2 - x1) - (x4 - x3)*(y2 - y1);
     if (denom == 0) {
@@ -32,7 +32,7 @@ new Vue({
     computed: {
         c: function () {
             const {x1, y1, x2, y2, x3, y3, x4, y4} = this;
-            return line_intersect(x1, y1, x2, y2, x3, y3, x4, y4);
+            return line_intersection(x1, y1, x2, y2, x3, y3, x4, y4);
         }
     }
 });
