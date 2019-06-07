@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# How to minify css
+#
+# usage
+# $ cat a.css | ./css_minify_optimize > out.css
+#
+# before begin
+# $ npm install -g csso-cli
+
+csso
+
+# https://github.com/css/csso
+# https://github.com/cssnano/cssnano
+# https://github.com/jakubpawlowicz/clean-css

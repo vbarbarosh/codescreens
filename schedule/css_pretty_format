@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# How to pretty print css
+#
+# usage
+# $ cat a.css | ./css_pretty_format > out.css
+#
+# before begin
+# $ npm install -g cssbeautify-cli
+
+# cssbeautify-cli will preserve all of the \n at the end of source
+# file. This is why a small preprocessing is necessary. At first one
+# \n is added to the end. Then all of \n but one will be removed from
+# the end.
+(cat; echo) | sed -e :a -e '/^\n*$/{$d;N;ba' -e '}' | cssbeautify-cli -s
