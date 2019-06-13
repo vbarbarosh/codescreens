@@ -16,4 +16,5 @@ set -o nounset -o errexit -o pipefail
 # file. This is why a small preprocessing is necessary. At first one
 # \n is added to the end. Then all of \n but one will be removed from
 # the end.
+# http://sed.sourceforge.net/sed1line.txt
 (cat; echo) | sed -e :a -e '/^\n*$/{$d;N;ba' -e '}' | cssbeautify-cli -s
