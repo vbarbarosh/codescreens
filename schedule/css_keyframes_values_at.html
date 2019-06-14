@@ -1,0 +1,83 @@
+<div id="app">
+    Get property values from keyframes at specific time.
+    <br>
+    <textarea v-model="keyframes" cols="50" rows="5"></textarea>
+    <br>
+    <input v-model="time" type="number" min="0" max="1" step="0.01">
+    <pre>{{ values }}</pre>
+</div>
+
+<script src="https://unpkg.com/vue@2.6.10/dist/vue.js"></script>
+<script>
+new Vue({
+    el: '#app',
+    data: {
+        time: 0.25,
+        keyframes: `0% { opacity: 0; animation-timing-function: ease-in-out; }
+100% { opacity: 1; }`,
+    },
+    computed: {
+        values: function () {
+            try {
+            return css_keyframe_values_at(this.keyframes, this.time);
+            }
+            catch (error) {
+                return `Error: ${error}`;
+            }
+        }
+    }
+});
+function css_keyframe_values_at(keyframes, time)
+{
+    // 1. Parse **keyframes** using STYLE element
+    // 2. Get a list of CSSKeyframeRule from STYLE element
+
+    const div = document.createElement('DIV');
+    const style = document.createElement('STYLE');
+    try {
+        style.innerHTML = `@keyframes __KEYFRAMES_VALUES_AT__ { ${keyframes} }`;
+        document.body.append(div);
+        document.body.append(style);
+
+        // 3. Create an array of keyframes for Element.animate
+        const rows = [];
+        const rules = style.sheet.rules[0].cssRules;
+        const props = [];
+        for (let i = 0, end = rules.length; i < end; ++i) {
+            const row = {};
+            row.offset = rules[i].keyText.replace('%', '')/100;
+            for (let j = 0, jj = rules[i].style.length; j < jj; ++j) {
+                const prop = rules[i].style[j];
+                if (prop == 'animation-timing-function') {
+                    row.easing = rules[i].style[prop];
+                }
+                else {
+                    row[prop] = rules[i].style[prop];
+                    if (!props.includes(prop)) {
+                        props.push(prop);
+                    }
+                }
+            }
+            rows.push(row);
+        }
+
+        // 4. Set animation to **time**
+        // https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API/Keyframe_Formats
+        const anim = div.animate(rows, {duration: 1});
+        anim.pause();
+        anim.currentTime = time;
+
+        // 5. Extract values
+        const styles = getComputedStyle(div);
+        const ret = {};
+        for (let i = 0, end = props.length; i < end; ++i) {
+            ret[props[i]] = styles[props[i]];
+        }
+        return ret;
+    }
+    finally {
+        div.remove();
+        style.remove();
+    }
+}
+</script>
