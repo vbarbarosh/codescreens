@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# Show common lines in two files
+
+# https://unix.stackexchange.com/a/398143/121657
+# > Use comm -12 file1 file2 to get common lines in both files.
+# >
+# > You may also needs your file to be sorted to comm to work as
+# > expected.
+# >
+# > comm -12 <(sort file1) <(sort file2)
+# >
+# > From man comm:
+# > 
+# > -1 suppress column 1 (lines unique to FILE1)
+# > -2 suppress column 2 (lines unique to FILE2)
+
+comm -12 <(sort emails-prod.txt) <(sort emails-dev.txt)
