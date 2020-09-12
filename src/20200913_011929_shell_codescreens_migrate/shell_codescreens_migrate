@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -o nounset -o errexit -o pipefail
+
+# A script for migrating codescreens into a blog-like format.
+# Should be run from demos directory
+
+script=`realpath $0`
+scriptdir=`dirname $script`
+scriptname=`basename $script`
+
+for file in *; do
+    date=$(date -d @$(git log --format=%at $file | tail -1) +%Y%m%d_%H%M%S)
+    dir=${date}_${file%.*}
+    mkdir $dir
+    mv $file $dir
+    mv ../img/${file%.*}.png $dir/cover.png
+    echo
+done
