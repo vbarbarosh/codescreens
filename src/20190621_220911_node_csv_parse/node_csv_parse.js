@@ -14,7 +14,7 @@ rwillicott0@imageshack.us,Raffarty Willicott
 aolooney1@senate.gov,Ange O'Looney
 bsorey2@bing.com,Bryna Sorey
 lbutfield3@lycos.com,Loy Butfield`;
-    const filename = path.resolve(__dirname, '../input/users.csv');
+    const filename = path.resolve(__dirname, '../../lorem/users.csv');
 
     console.log(await csv_parse_file(filename));
     console.log(await csv_parse_stream(fs.createReadStream(filename)));

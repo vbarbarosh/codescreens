@@ -17,8 +17,8 @@ cd $scriptdir
 curl https://echo.vbarbarosh.com \
     --data-urlencode ='~!@#$%^&*()_+{}:"<>? will be properly encoded' \
     --data-urlencode keyname='+& will be properly encoded =+&' \
-    --data-urlencode @../input/nature/boat-1620452_1920-thumb.jpg \
-    --data-urlencode image@../input/nature/boat-1620452_1920-thumb.jpg
+    --data-urlencode @../../lorem/nature/boat-1620452_1920-thumb.jpg \
+    --data-urlencode image@../../lorem/nature/boat-1620452_1920-thumb.jpg
 
 # HTTP/1.1 POST /
 #
