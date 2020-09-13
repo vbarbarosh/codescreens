@@ -2,5 +2,11 @@
   "dependencies": {
     "csv-writer": "^1.4.0",
     "neat-csv": "^5.0.0"
+  },
+  "devDependencies": {
+    "@vbarbarosh/node-cli": "github:vbarbarosh/node-cli",
+    "@vbarbarosh/node-fs": "github:vbarbarosh/node-fs",
+    "bluebird": "^3.7.2",
+    "esm": "^3.2.25"
   }
 }
